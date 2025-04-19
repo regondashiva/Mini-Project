@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="images.png">
+    <title>Shloka 6.46</title>
+    <script type="module"> 
+  
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+import {
+  getDatabase,
+  ref,
+  get,
+} 
+from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
+        const firebaseConfig = {
+  apiKey: "AIzaSyC-whTtAmBBidncaKTnhcafYzLXHGYcQZ4",
+  authDomain: "mproject-23cfa.firebaseapp.com",
+  databaseURL: "https://mproject-23cfa-default-rtdb.firebaseio.com",
+  projectId: "mproject-23cfa",
+  storageBucket: "mproject-23cfa.firebasestorage.app",
+  messagingSenderId: "919584112619",
+  appId: "1:919584112619:web:1139be80f29e32f01da3ae",
+  measurementId: "G-LKGMZCETVL",
+};
+
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
+
+window.fetchTranslation = function(shlokaNum= window.currentShlokaNum || 9, languageKey) {
+  const tranRef = ref(database, `Shloka-${shlokaNum}/Translations/${languageKey}`);
+  get(tranRef)
+  .then((snapshot) => {
+    if (snapshot.exists()) {
+      const translation = snapshot.val();
+      const lines = translation.split("&"); 
+      const formattedTranslation = lines.join("<br>"); 
+      document.getElementById("shloka-box").innerHTML = formattedTranslation;
+    } else {
+      console.log("No data found.");
+    }
+  })
+  .catch((error) => {
+    console.log("Error translating.", error);
+  });
+}
+
+
+ 
+  window.changeText=function (languageKey) {
+    fetchTranslation(window.currentShlokaNum,languageKey);
+  };
+  
+
+  window.navClick = async function (shlokaNumber) {
+    window.currentShlokaNum = shlokaNumber;
+    const mainRef = ref(database, `Shloka-${shlokaNumber}/main`);
+    const audioRef = ref(database, `Shloka-${shlokaNumber}/aud`);
+    const snapshot = await get(audioRef);
+    const snapshot1 = await get(mainRef);
+    if (snapshot.exists()) {
+      const audioUrl = snapshot.val();
+      document.getElementById("audPlayer").src = audioUrl;
+    } else {
+      console.error("No audio data found.");
+    }
+    if (snapshot1.exists()) {
+      const mainText = snapshot1.val();
+      document.getElementById("shloka-box").innerHTML = mainText;
+    } else {
+      console.error("No text data found.");
+    }
+  };
+    </script>
+    <style>
+      #audios{
+        display:none;
+      }
+
+      #shloka-box{
+    font-size: xx-large;
+    font-weight: 600;
+    text-decoration-color: black;
+  }
+ .shloka-box{
+  text-align: center;
+  margin-left: 40px;
+  margin-top: 100px;
+  box-shadow:rgb(0,0,0,0.4) 0  5px 5px;
+  background: rgba(80, 37, 14, 0.7);
+  font: bolder;
+  text-decoration-color: black;
+  width: 750px;
+ z-index: 2;
+padding: 130px;
+margin: 20px auto;
+background-color: rgba(255, 255, 255, 0.397); 
+border: 2px solid #eeeeee; 
+border-radius: 5px;
+text-align: center;
+z-index: 1;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+ }
+ .audios{
+  font-size: x-large;
+ }
+ #audioplayer{
+  padding: 40px;
+  margin-top: 80px;
+ }
+
+ #aud1{
+  margin-bottom: 40px;
+ }
+ 
+
+ #aud2{
+  margin-bottom: 40px;
+ }
+
+ html {
+background-size: cover; 
+background-position: center;     
+    z-index: 1;
+    display: block;
+unicode-bidi: isolate
+  
+ }
+ #button1,#button2,#button3,#button4 {
+            padding: 15px 30px; 
+            font-size: 18px; 
+            border-radius: 12px; 
+            border: none; 
+            padding-right: 30px;
+            margin-right: 30px;
+            margin-top: 20px;
+            cursor: pointer; 
+            transition: all 0.3s ease; 
+        }
+
+        #button1,#button2,#button3,#button4 {
+            background-color: #89edff;
+            color: rgb(15, 15, 15); 
+            border: black 1px solid;
+            transform: scale(1.1); 
+                  }
+
+        #button1,#button2,#button3,#button4 {
+            outline: none; 
+        }
+        div{
+          text-align: left;
+          justify-content: center;
+        }
+        
+ html {
+background-size: cover; 
+background-position: center;     
+    background-image: url('sbg3.avif');
+    z-index: 1;
+    display: block;
+unicode-bidi: isolate
+  
+ }
+        .words{
+          font-size: xx-large;
+          justify-content: center;
+          z-index: 2;
+          line-height: 210%;
+          margin-left: 400px;
+        }
+        .explanationofterms{
+          background-color:   rgba(47, 139, 127, 0.7);
+          width:55% ;
+          text-align: center;
+          margin-left: 400px;
+        }
+
+        .commentary{
+          background-color:   rgba(47, 139, 127, 0.7);
+          width:55% ;
+          text-align: center;
+          margin-left: 350px;
+          margin-right: 400px;
+        }
+        .summary{
+        
+          background-color:   rgba(47, 139, 127, 0.7);
+          width:55% ;
+          text-align: center;
+          margin-left: 400px;
+
+        }
+        .summaryc{
+          width:75% ;
+          margin-left: 400px;
+          font-size: xx-large;
+          justify-content: center;
+          z-index: 2;
+          line-height: 180%;
+          margin-right: 400px;
+
+        }
+        .content{
+          margin-left: 400px;
+          font-size: xx-large;
+          justify-content: center;
+          z-index: 2;
+          margin-right: 400px;
+          width:75% ;
+          line-height: 180%;
+        }
+      </style>
+<script>
+  function changeText(language) {
+      alert("You selected language: " + language);
+  }
+</script>
+<script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'en',
+        includedLanguages: 'te,hi,ta',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+      }, 'google_translate_element');
+    }
+  </script>
+  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+</head>
+<body>
+  <div class="shloka-box">
+    <div class="container">
+      <div class="wallpaper"></div>
+      <div class="shloka1">
+      <p style="z-index: 2;"  id="shloka-box">
+        तपस्विभ्योऽधिकोयोगी   ज्ञानिभ्योऽपिमतोऽधिक:|
+        <br>
+        कर्मिभ्यश्चाधिकोयोगी  तस्माद्योगीभवार्जुन||
+      </p>
+
+ <div class="audios">
+
+<label>
+  <input type="radio"  name="audio" id="aud1" value="aud1" onclick="playAudio('aud1')"> Aud 1 (Female Voice)
+</label>
+<label>
+  <input type="radio" name="audio" id="aud2"  value="aud2" onclick="playAudio('aud2')"> Aud 2 (Male Voice)
+</label>
+</div>
+
+
+<div id="audioPlayer">
+    <audio id="audio1" src="assets\sloka 9.mp3" ></audio>
+  <audio id="audio2" src="assets\Sloka 9 M.mp3" ></audio>
+
+  
+  <audio id="currentAudio" controls>
+      
+  </audio>
+</div>
+</div>
+
+<script>
+  function playAudio(selected) {
+      
+      const audio1 = document.getElementById('audio1');
+      const audio2 = document.getElementById('audio2');
+      const currentAudio = document.getElementById('currentAudio');
+      const audioPlayer = document.getElementById('audioPlayer');
+
+      
+      audio1.pause();
+      audio2.pause();
+
+      
+      audio1.currentTime = 0;
+      audio2.currentTime = 0;
+
+      
+      audioPlayer.style.display = 'block';
+
+      if (selected === 'aud1') {
+          currentAudio.src = audio1.src; 
+          currentAudio.play(); 
+      } else if (selected === 'aud2') {
+          currentAudio.src = audio2.src; 
+          currentAudio.play(); 
+      }
+  }
+</script>   
+      <div class="buttons">
+        <button id="button1" onclick="changeText('1')">Telugu</button>
+        <button id="button2" onclick="changeText('2')">Hindi</button>
+        <button id="button3" onclick="changeText('3')">English</button>
+        <button id="button4" onclick="changeText('4')">Tamil</button>
+    </div>
+    </div>
+    </div>
+    <div style="font-size: xx-large;" class="explanationofterms">
+      <h2>Explanation of Terms</h2>
+    </div>
+
+    <div  class="words">
+    
+      <p >
+        तपस्विभ्यः  - than the ascetics (or those who practice austerities)<br>
+        अधिकः  - superior (or greater)<br>
+        योगी  - the yogi (or practitioner of yoga)<br>
+        ज्ञानिभ्यः  - than the wise (or knowledgeable)<br>
+        अपि  - also (or indeed)<br>
+        मतः  - considered (or deemed)<br>
+        अधिकः  - greater (or superior)<br>
+        कर्मिभ्यः  - than those engaged in action (or workers)<br>
+        च  - and<br>
+        अधिकः  - superior (or greater)<br>
+        योगी  - the yogi (or practitioner of yoga)<br>
+        तस्मात्  - therefore (or hence)<br>
+        योगी  - the yogi (or practitioner of yoga)<br>
+        भव  - be (or become)<br>
+        अर्जुन  - O Arjuna (addressing Arjuna directly)<br>
+    </p>
+    </div>
+    <div class="commentary" style="font-size: xx-large;">
+      <h2>
+        Commentary
+      </h2>
+    </div>
+    <div class="content">
+      <p style="font-size: xx-large;">
+  
+  <strong>I</strong>n this verse, Krishna compares different types of practitioners—ascetics (tapasvis), wise men (jñānins), and those engaged in action (karmis)—with yogis. He emphasizes the superiority of yogis in terms of spiritual attainment and effectiveness.
+  <br><br> <strong>Superiority of the Yogi:</strong><br>
+  
+  
+  "तपस्विभ्योऽधिकोयोगी" indicates that the yogi is superior to those who practice austerities (tapas). While ascetic practices are valuable, Krishna emphasizes that true yoga encompasses not just austerity but also a deeper understanding and connection with the divine.
+  <br><br><strong>  Wisdom and Knowledge:</strong><br>
+  
+  "ज्ञानिभ्योऽपिमतोऽधिक:" asserts that the yogi is also considered superior to wise individuals (those who possess knowledge). Knowledge is important, but Krishna suggests that mere intellectual understanding is not enough for true spiritual realization.
+  <br><br><strong>   Action and Karma:</strong><br>
+  
+  "कर्मिभ्यश्चाधिकोयोगी" indicates that the yogi is also greater than those engaged in actions. While performing one’s duties is essential, a yogi integrates their actions with spiritual awareness and devotion, leading to a more profound spiritual connection.
+
+      </p>
+      <strong>
+
+        Call to Action:</strong>
+    <p>
+        
+    The phrase "तस्माद्योगीभवानर्जुन" means "therefore, O Arjuna, be a yogi." Krishna encourages Arjuna to embrace the path of yoga, highlighting its comprehensive nature that combines the best aspects of austerity, knowledge, and action into a single, unified practice.
+    
+    </p>
+       </div>
+    <div style="font-size: xx-large;" class="summary">
+      <h2 >Summary</h2>
+    </div>
+    <div class="summaryc">
+      <p style="font-size: xx-large;">    In summary, this verse emphasizes that the yogi is superior to ascetics, wise individuals, and those engaged in action due to their holistic approach to spirituality. Krishna urges Arjuna to become a yogi, recognizing the unique advantages that come from integrating the practices of austerity, wisdom, and action in a single spiritual path.
+        Overall, this verse serves as a powerful reminder of the holistic nature of the yogic path and encourages practitioners to strive for spiritual growth through dedicated practice that transcends individual disciplines.
+        
+      </p>
+      
+    </div>
+    
+</body>
+</html>
