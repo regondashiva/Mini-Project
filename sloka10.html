@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="images.png">
+    <title>Shloka 6.47</title>
+    <script type="module"> 
+  
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+import {
+  getDatabase,
+  ref,
+  get,
+} 
+from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
+        const firebaseConfig = {
+  apiKey: "AIzaSyC-whTtAmBBidncaKTnhcafYzLXHGYcQZ4",
+  authDomain: "mproject-23cfa.firebaseapp.com",
+  databaseURL: "https://mproject-23cfa-default-rtdb.firebaseio.com",
+  projectId: "mproject-23cfa",
+  storageBucket: "mproject-23cfa.firebasestorage.app",
+  messagingSenderId: "919584112619",
+  appId: "1:919584112619:web:1139be80f29e32f01da3ae",
+  measurementId: "G-LKGMZCETVL",
+};
+
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
+
+window.fetchTranslation = function(shlokaNum= window.currentShlokaNum || 10, languageKey) {
+  const tranRef = ref(database, `Shloka-${shlokaNum}/Translations/${languageKey}`);
+  get(tranRef)
+  .then((snapshot) => {
+    if (snapshot.exists()) {
+      const translation = snapshot.val();
+      const lines = translation.split("&"); 
+      const formattedTranslation = lines.join("<br>"); 
+      document.getElementById("shloka-box").innerHTML = formattedTranslation;
+    } else {
+      console.log("No data found.");
+    }
+  })
+  .catch((error) => {
+    console.log("Error translating.", error);
+  });
+}
+
+
+ 
+  window.changeText=function (languageKey) {
+    fetchTranslation(window.currentShlokaNum,languageKey);
+  };
+  
+
+  window.navClick = async function (shlokaNumber) {
+    window.currentShlokaNum = shlokaNumber;
+    const mainRef = ref(database, `Shloka-${shlokaNumber}/main`);
+    const audioRef = ref(database, `Shloka-${shlokaNumber}/aud`);
+    const snapshot = await get(audioRef);
+    const snapshot1 = await get(mainRef);
+    if (snapshot.exists()) {
+      const audioUrl = snapshot.val();
+      document.getElementById("audPlayer").src = audioUrl;
+    } else {
+      console.error("No audio data found.");
+    }
+    if (snapshot1.exists()) {
+      const mainText = snapshot1.val();
+      document.getElementById("shloka-box").innerHTML = mainText;
+    } else {
+      console.error("No text data found.");
+    }
+  };
+    </script>
+    <style>
+      #audios{
+        display:none;
+      }
+
+      #shloka-box{
+    font-size: xx-large;
+    font-weight: 600;
+    text-decoration-color: black;
+  }
+ .shloka-box{
+  text-align: center;
+  margin-left: 40px;
+  margin-top: 100px;
+  box-shadow:rgb(0,0,0,0.4) 0  5px 5px;
+  background: rgba(80, 37, 14, 0.7);
+  font: bolder;
+  text-decoration-color: black;
+  width: 750px;
+ z-index: 2;
+padding: 130px;
+margin: 20px auto;
+background-color: rgba(255, 255, 255, 0.397); 
+border: 2px solid #eeeeee; 
+border-radius: 5px;
+text-align: center;
+z-index: 1;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+ }
+ .audios{
+  font-size: x-large;
+ }
+ #audioplayer{
+  padding: 40px;
+  margin-top: 80px;
+ }
+
+ #aud1{
+  margin-bottom: 40px;
+ }
+ 
+
+ #aud2{
+  margin-bottom: 40px;
+ }
+
+ html {
+background-size: cover; 
+background-position: center;     
+    z-index: 1;
+    display: block;
+unicode-bidi: isolate
+  
+ }
+ #button1,#button2,#button3,#button4 {
+            padding: 15px 30px; 
+            font-size: 18px; 
+            border-radius: 12px; 
+            border: none; 
+            padding-right: 30px;
+            margin-right: 30px;
+            margin-top: 20px;
+            cursor: pointer; 
+            transition: all 0.3s ease; 
+        }
+
+        #button1,#button2,#button3,#button4 {
+            background-color: #89edff;
+            color: rgb(15, 15, 15); 
+            border: black 1px solid;
+            transform: scale(1.1); 
+                  }
+
+        #button1,#button2,#button3,#button4 {
+            outline: none; 
+        }
+        div{
+          text-align: left;
+          justify-content: center;
+        }
+        
+ html {
+background-size: cover; 
+background-position: center;     
+    background-image: url('sbg3.avif');
+    z-index: 1;
+    display: block;
+unicode-bidi: isolate
+  
+ }
+        .words{
+          font-size: xx-large;
+          justify-content: center;
+          z-index: 2;
+          line-height: 210%;
+          margin-left: 400px;
+        }
+        .explanationofterms{
+          background-color:   rgba(47, 139, 127, 0.7);
+          width:55% ;
+          text-align: center;
+          margin-left: 400px;
+        }
+
+        .commentary{
+          background-color:   rgba(47, 139, 127, 0.7);
+          width:55% ;
+          text-align: center;
+          margin-left: 350px;
+          margin-right: 400px;
+        }
+        .summary{
+        
+          background-color:   rgba(47, 139, 127, 0.7);
+          width:55% ;
+          text-align: center;
+          margin-left: 400px;
+
+        }
+        .summaryc{
+          width:75% ;
+          margin-left: 400px;
+          font-size: xx-large;
+          justify-content: center;
+          z-index: 2;
+          line-height: 180%;
+          margin-right: 400px;
+
+        }
+        .content{
+          margin-left: 400px;
+          font-size: xx-large;
+          justify-content: center;
+          z-index: 2;
+          margin-right: 400px;
+          width:75% ;
+          line-height: 180%;
+        }
+      </style>
+<script>
+  function changeText(language) {
+      alert("You selected language: " + language);
+  }
+</script>
+</head>
+<body>
+  <div class="shloka-box">
+    <div class="container">
+      <div class="wallpaper"></div>
+      <div class="shloka1">
+      <p style="z-index: 2;"  id="shloka-box">
+        योगिनामपि सर्वेषां मद्गतेनान्तरात्मना |
+        <br>
+        रद्धावान्भजते यो मां स मे युक्ततमो मत: ||      
+      </p>
+
+ <div class="audios">
+
+<label>
+  <input type="radio"  name="audio" id="aud1" value="aud1" onclick="playAudio('aud1')"> Aud 1 (Female Voice)
+</label>
+<label>
+  <input type="radio" name="audio" id="aud2"  value="aud2" onclick="playAudio('aud2')"> Aud 2 (Male Voice)
+</label>
+</div>
+
+
+<div id="audioPlayer">
+    <audio id="audio1" src="assets\sloka 10.mp3" ></audio>
+  <audio id="audio2" src="assets\Sloka 10 M.mp3" ></audio>
+
+  
+  <audio id="currentAudio" controls>
+      
+  </audio>
+</div>
+</div>
+
+<script>
+  function playAudio(selected) {
+      
+      const audio1 = document.getElementById('audio1');
+      const audio2 = document.getElementById('audio2');
+      const currentAudio = document.getElementById('currentAudio');
+      const audioPlayer = document.getElementById('audioPlayer');
+
+      
+      audio1.pause();
+      audio2.pause();
+
+      
+      audio1.currentTime = 0;
+      audio2.currentTime = 0;
+
+      
+      audioPlayer.style.display = 'block';
+
+      if (selected === 'aud1') {
+          currentAudio.src = audio1.src; 
+          currentAudio.play(); 
+      } else if (selected === 'aud2') {
+          currentAudio.src = audio2.src; 
+          currentAudio.play(); 
+      }
+  }
+</script> 
+<script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'en',
+        includedLanguages: 'te,hi,ta',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+      }, 'google_translate_element');
+    }
+  </script>
+  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+      <div class="buttons">
+        <button id="button1" onclick="changeText('1')">Telugu</button>
+        <button id="button2" onclick="changeText('2')">Hindi</button>
+        <button id="button3" onclick="changeText('3')">English</button>
+        <button id="button4" onclick="changeText('4')">Tamil</button>
+    </div>
+    </div>
+    </div>
+    <div style="font-size: xx-large;" class="explanationofterms">
+      <h2>Explanation of Terms</h2>
+    </div>
+
+    <div  class="words">
+    
+      <p >
+        योगिनाम्  - of yogis (or practitioners of yoga)<br>
+        अपि  - also (or even)<br>
+        सर्वेषां  - of all (or of everyone)<br>
+        मद्गतेन  - who is absorbed in Me (or who is united with Me)<br>
+        आन्तरात्मना  - with the inner self (or with the inner spirit)<br>
+        श्रद्धावान्  - one who has faith (or is devoted)<br>
+        भजते  - worships (or serves)<br>
+        यो  - who (or he who)<br>
+        माम्  - Me (or the Divine)<br>
+        सः  - he (or that person)<br>
+        मे  - My (or of Me)<br>
+        युक्ततमः  - the most devoted (or the most unified)<br>
+        मतः  - in My opinion (or according to My view)<br>
+
+    </p>
+    </div>
+    <div class="commentary" style="font-size: xx-large;">
+      <h2>
+        Commentary
+      </h2>
+    </div>
+    <div class="content">
+      <p style="font-size: xx-large;">
+  
+  <strong>T</strong>his verse concludes Chapter 6, which deals with the practice of yoga and meditation. Here, Krishna identifies the characteristics of the most elevated yogi and the importance of devotion in spiritual practice.
+  <br><br> <strong> Yogis and Absorption in the Divine:</strong><br>
+  
+  "योगिनामपि सर्वेषां" indicates that even among all yogis, there is a distinction based on the quality of their practice. Krishna emphasizes that the one who is truly absorbed in Him (the Divine) through inner realization ("मद्गतेनान्तरात्मना") stands out among all practitioners.
+  <br><br><strong> Inner Connection:</strong><br>
+  
+  
+  The phrase "आन्तरात्मना" underscores the importance of connecting with the inner self. It implies that true yoga involves deep introspection and realization of one’s inner spiritual essence, which aligns with the Divine.
+  <br><br><strong>  Faith and Devotion:</strong><br>
+  
+  "श्रद्धावान्भजते यो मां" means that the one who worships Krishna with faith and devotion is regarded as the highest among yogis. This highlights that faith (śraddhā) is essential for a genuine connection with the Divine and for progressing on the spiritual path.
+
+      </p>
+      <strong>
+        Yukti (Unity):
+    
+    </strong>
+    <p>
+        The term "युक्ततमो" suggests that this yogi is the most unified or aligned with Krishna’s teachings. It implies that the highest state of yoga is achieved through sincere devotion and complete surrender to the Divine will.
+    
+    </p>
+       </div>
+    <div style="font-size: xx-large;" class="summary">
+      <h2 >Summary</h2>
+    </div>
+    <div class="summaryc">
+      <p style="font-size: xx-large;">    In summary, this verse emphasizes that among all yogis, the one who is fully absorbed in the Divine and possesses unwavering faith is considered the most dedicated practitioner. Such a person connects with their inner self, aligning their consciousness with Krishna. This highlights the importance of devotion in the spiritual journey, placing faith and love for God as the ultimate markers of a successful yogi.
+        Overall, this verse presents a beautiful culmination of the teachings in the Bhagavad Gita, emphasizing that true yogic practice is rooted in deep devotion, inner connection, and unwavering faith in the Divine.
+        </p>
+      
+    </div>
+    
+</body>
+</html>
