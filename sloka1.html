@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="images.png">
+    <title>Shloka 6.38</title>
+    <script type="module"> 
+  
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+import {
+  getDatabase,
+  ref,
+  get,
+} 
+from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
+        const firebaseConfig = {
+  apiKey: "AIzaSyC-whTtAmBBidncaKTnhcafYzLXHGYcQZ4",
+  authDomain: "mproject-23cfa.firebaseapp.com",
+  databaseURL: "https://mproject-23cfa-default-rtdb.firebaseio.com",
+  projectId: "mproject-23cfa",
+  storageBucket: "mproject-23cfa.firebasestorage.app",
+  messagingSenderId: "919584112619",
+  appId: "1:919584112619:web:1139be80f29e32f01da3ae",
+  measurementId: "G-LKGMZCETVL",
+};
+
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
+
+window.fetchTranslation = function(shlokaNum= window.currentShlokaNum || 1, languageKey) {
+  const tranRef = ref(database, `Shloka-${shlokaNum}/Translations/${languageKey}`);
+  get(tranRef)
+  .then((snapshot) => {
+    if (snapshot.exists()) {
+      const translation = snapshot.val();
+      const lines = translation.split("&"); 
+      const formattedTranslation = lines.join("<br>"); 
+      document.getElementById("shloka-box").innerHTML = formattedTranslation;
+    } else {
+      console.log("No data found.");
+    }
+  })
+  .catch((error) => {
+    console.log("Error translating.", error);
+  });
+}
+
+
+ 
+  window.changeText=function (languageKey) {
+    fetchTranslation(window.currentShlokaNum,languageKey);
+  };
+  
+
+  window.navClick = async function (shlokaNumber) {
+    window.currentShlokaNum = shlokaNumber;
+    const mainRef = ref(database, `Shloka-${shlokaNumber}/main`);
+    const audioRef = ref(database, `Shloka-${shlokaNumber}/aud`);
+    const snapshot = await get(audioRef);
+    const snapshot1 = await get(mainRef);
+    if (snapshot.exists()) {
+      const audioUrl = snapshot.val();
+      document.getElementById("audPlayer").src = audioUrl;
+    } else {
+      console.error("No audio data found.");
+    }
+    if (snapshot1.exists()) {
+      const mainText = snapshot1.val();
+      document.getElementById("shloka-box").innerHTML = mainText;
+    } else {
+      console.error("No text data found.");
+    }
+  };
+    </script>
+        <script type="text/javascript">
+          function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+              pageLanguage: 'en',
+              includedLanguages: 'te,hi,ta',
+              layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            }, 'google_translate_element');
+          }
+        </script>
+        <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    
+    <style>
+
+      #audios{
+        display:none;
+      }
+
+      #shloka-box{
+    font-size: xx-large;
+    margin-left: 80px;
+    font-weight: 600;
+    text-decoration-color: black;
+  }
+ .shloka-box{
+  text-align: center;
+  line-height: 350%;
+  margin-left: 60px;
+  margin-top: 0px;
+  box-shadow:rgb(0,0,0,0.4) 0  5px 5px;
+  background: rgba(80, 37, 14, 0.7);
+  font: bolder;
+  text-decoration-color: black;
+  width: 770px;
+ z-index: 2;
+padding: 130px;
+margin: 20px auto;
+background-color: rgba(255, 255, 255, 0.397); 
+border: 2px solid #eeeeee; 
+border-radius: 5px;
+text-align: center;
+z-index: 1;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+ }
+ audio{
+  margin-left: 120px;
+  width: 430px;
+  height: 50px;
+ }
+ .audios{
+  font-size: x-large;
+  margin-left: 80px;
+ }
+ #audioplayer{
+  padding: 80px;
+  margin-top: 80px;
+ }
+
+ #aud1{
+  margin-bottom: 40px;
+ }
+ 
+
+ #aud2{
+  margin-bottom: 40px;
+ }
+
+ html {
+background-size: cover; 
+background-position: center;     
+    z-index: 1;
+    display: block;
+unicode-bidi: isolate
+  
+ }
+ #button1,#button2,#button3,#button4 {
+            padding: 15px 30px; 
+            font-size: 18px; 
+            border-radius: 12px; 
+            border: none; 
+            padding-right: 30px;
+            margin-right: 30px;
+            margin-top: 20px;
+            cursor: pointer;
+
+            transition: all 0.3s ease; 
+        }
+
+        #button1,#button2,#button3,#button4 {
+            background-color: #89edff;
+            color: rgb(15, 15, 15); 
+            border: black 1px solid;
+            transform: scale(1.1); 
+                  }
+                  #button1{
+                    margin-left: 80px;
+                  }
+        #button1,#button2,#button3,#button4 {
+            outline: none; 
+        }
+        div{
+          text-align: left;
+          justify-content: center;
+        }
+   
+             
+ html {
+background-size: cover; 
+background-position: center;     
+    background-image: url('sbg3.avif');
+    z-index: 1;
+    display: block;
+unicode-bidi: isolate
+  
+ }
+        .words{
+          font-size: xx-large;
+          justify-content: center;
+          z-index: 2;
+          line-height: 210%;
+          margin-left: 400px;
+        }
+        .explanationofterms{
+          background-color:   rgba(47, 139, 127, 0.7);
+          width:55% ;
+          text-align: center;
+          margin-left: 400px;
+        }
+        
+        .commentary{
+          background-color:   rgba(47, 139, 127, 0.7);
+          width:65% ;
+          text-align: center;
+          margin-left: 365px;
+        }
+        .summary{
+        
+          background-color:   rgba(47, 139, 127, 0.7);
+          width:55% ;
+          text-align: center;
+          margin-left: 400px;
+
+        }
+        .summaryc{
+          width:65% ;
+          padding: 10px;
+          text-align: justify;
+          justify-content: justify;
+          margin-left: 350px;
+          z-index: 2;
+          line-height: 250%;
+
+          
+        }
+        .content{
+       
+          width:65% ;
+          padding: 10px;
+          text-align: justify;
+          justify-content: justify;
+          margin-left: 350px;
+          z-index: 2;
+          line-height: 250%;
+
+ }
+        .visualmapping{
+          
+          background-color:   rgba(47, 139, 127, 0.7);
+          width:55% ;
+          text-align: center;
+          margin-left: 400px;
+        }
+
+        #image-container {
+      display: none; 
+      text-align: center;
+      margin-top: 50px;
+    }
+    #image-container img {
+      max-width: 100%; 
+      height: auto;
+    }
+    .generate-block {
+      display: inline-block;
+      text-align: center;
+      font-size: xx-large;
+    }
+    
+.rectangle-19 {
+  background: rgba(139, 170, 228, 0.69);
+  width: 1690px;
+  height: 106px;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+}
+a{
+  text-decoration: none;
+  color: inherit;
+}
+
+.t-menu-01 {
+  color: #ffffff;
+  text-align: left;
+  font-family: "Inter-Italic", sans-serif;
+  font-size: 25px;
+  line-height: 18.75px;
+  font-weight: 400;
+  font-style: italic;
+  left: 860px;
+  top: 50px;
+  position: relative;
+}
+
+.t-menu-03 {
+  color: #ffffff;
+  text-align: left;
+  font-family: "Inter-Italic", sans-serif;
+  font-size: 25px;
+  line-height: 18.75px;
+  top: 50px;
+  left:970px;
+  font-weight: 400;
+  font-style: italic;
+  position: relative;
+}
+.t-menu-05 {
+  color: #ffffff;
+  text-align: left;
+  top: 50px;
+  font-family: "Inter-Italic", sans-serif;
+  font-size: 25px;
+  left: 1040px;
+  line-height: 18.75px;
+  font-weight: 400;
+  font-style: italic;
+  position: relative;
+}
+.menu {
+  display: flex;
+  flex-direction: row;
+  gap: 70px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 400px;
+  height: 15px;
+  position: relative;
+}
+.the-bhagavad-gita {
+  color: #0f2b43;
+  text-align: left;
+  margin-top: 30px;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-size: 90px;
+  font-weight: 150;
+  position: absolute;
+  left: 130px;
+  top: 237px;
+  width: 918px;
+  height: 241px;
+}
+.rectangle-35 {
+    width: 125px;
+        height: 104px;
+        position: absolute;
+        left: 43px;
+        top: 5px;
+        object-fit: cover;
+        margin-bottom: 60px;
+}
+.integrating-ancient-wisdom-with-modern-science {
+  color: #0f2b43;
+  line-height: 60px;
+  margin-top: 40px;
+  margin-right: 50px;
+  text-align: left;
+  font-family:'Times New Roman', Times, serif;
+  font-size: 35px;
+  font-weight: 250;
+  position: absolute;
+  left: 160px;
+  top: 379px;
+  width: 651px;
+  height: 99px;
+}
+.the-bhagavad-gita2 {
+    margin-left: 30px;
+  color: #000000;
+  text-align: left;
+  position: absolute;
+  left: 142px;
+  top: 26px;
+  width: 220px;
+  height: 57px;
+}
+.the-bhagavad-gita-2-span {
+  color: #000000;
+  font-family: "RedRose-Bold", sans-serif;
+  font-size: 25px;
+  line-height: 26px;
+  letter-spacing: 0.03em;
+  font-weight: 700;
+}
+.the-bhagavad-gita-2-span2 {
+  color: #000000;
+  font-family: "RedRose-Bold", sans-serif;
+  font-size: 20px;
+  line-height: 26px;
+  letter-spacing: 0.03em;
+  font-weight: 700;
+}
+.the-bhagavad-gita-2-span3 {
+  color: #000000;
+  font-family: "RedRose-Bold", sans-serif;
+  font-size: 30px;
+  line-height: 26px;
+  letter-spacing: 0.03em;
+  font-weight: 700;
+}
+
+
+
+      </style>
+<script>
+  function changeText(language) {
+      alert("You selected language: " + language);
+  }
+</script>
+</head>
+<body>
+  <div class="rectangle-19"></div>
+        <div class="cta">
+          <div class="menu">
+            <div class="t-menu-01"><a href="webpage1.html">Home</a></div>
+            <div class="t-menu-03"><a href="webpage2.html">Verses</a></div>
+            <div class="t-menu-05">About Us</div>
+          </div>
+        </div>
+        <img class="rectangle-35" src="bird.png" />
+        <div class="the-bhagavad-gita2">
+          <span>
+            <span class="the-bhagavad-gita-2-span">
+              The Bhagavad
+              <br />
+            </span>
+            <span class="the-bhagavad-gita-2-span2"></span>
+            <span class="the-bhagavad-gita-2-span3">GITA</span>
+          </span>
+        </div>
+      
+        
+  <div class="header"></div>
+  <div class="shloka-box">
+    <div class="container">
+      <div class="wallpaper"></div>
+      <div class="shloka1">
+      <p style="z-index: 2;"  id="shloka-box">
+        कच्चिन्नोभयविभ्रष्टश्छिन्नाभ्रमिव नश्यति |
+        <br>
+        अप्रतिष्ठो महाबाहो विमूढो ब्रह्मण: पथि ||
+      </p>
+
+ <div class="audios">
+
+<label>
+  <input type="radio"  name="audio" id="aud1" value="aud1" onclick="playAudio('aud1')"> Aud 1 (Female Voice)
+</label>
+<label>
+  <input type="radio" name="audio" id="aud2"  value="aud2" onclick="playAudio('aud2')"> Aud 2 (Male Voice)
+</label>
+</div>
+
+
+<div id="audioPlayer">
+    <audio id="audio1" src="assets\sloka 1(2).mp3" ></audio>
+  <audio id="audio2" src="assets\Sloka 1 M.mp3" ></audio>
+
+  
+  <audio id="currentAudio" controls>
+      
+  </audio>
+</div>
+</div>
+
+<script>
+  function playAudio(selected) {
+      
+      const audio1 = document.getElementById('audio1');
+      const audio2 = document.getElementById('audio2');
+      const currentAudio = document.getElementById('currentAudio');
+      const audioPlayer = document.getElementById('audioPlayer');
+
+      
+      audio1.pause();
+      audio2.pause();
+
+      
+      audio1.currentTime = 0;
+      audio2.currentTime = 0;
+
+      
+      audioPlayer.style.display = 'block';
+
+      if (selected === 'aud1') {
+          currentAudio.src = audio1.src; 
+          currentAudio.play(); 
+      } else if (selected === 'aud2') {
+          currentAudio.src = audio2.src; 
+          currentAudio.play(); 
+      }
+  }
+</script>   
+      <div class="buttons">
+        <button id="button1" onclick="changeText('1')">Telugu</button>
+        <button id="button2" onclick="changeText('2')">Hindi</button>
+        <button id="button3" onclick="changeText('3')">English</button>
+        <button id="button4" onclick="changeText('4')">Tamil</button>
+    </div>
+    </div>
+    </div>
+    <div style="font-size: xx-large;" class="explanationofterms">
+      <h2>Explanation of Terms</h2>
+    </div>
+
+    <div  class="words">
+    
+      <p >
+      कच्चिन्न  - is it not?<br>
+      उभयविभ्रष्ट:  - one who is confused between both (paths or choices)<br>
+      छिन्न  - cut off<br>
+      अभ्रमिव  - like a leaf (or a person) blown about<br>
+      नश्यति  - perishes (or is destroyed)<br>
+      अप्रतिष्ठ:  - one who is unsteady or has no foundation<br>
+      महाबाहो  - O mighty-armed one (a name for Arjuna)<br>
+      विमूढ:  - deluded or confused<br>
+      ब्रह्मण:  - of a person seeking knowledge or enlightenment<br>
+
+    </p>
+    </div>
+    <div class="commentary" style="font-size: xx-large;">
+      <h2>
+        Commentary
+      </h2>
+    </div>
+    <div class="content">
+      <p style="font-size: xx-large;">
+  
+  <strong>I</strong>n this verse, Krishna is addressing Arjuna during their conversation on the battlefield of Kurukshetra. Arjuna is in a state of moral and emotional turmoil about fighting in the war. Krishna uses this verse to illustrate the consequences of indecision and confusion in one’s life.
+ <br><br> <strong>Confusion and Delusion:</strong><br>
+  
+  The term "उभयविभ्रष्ट:" (confused between both) signifies a person who is torn between two choices or paths, leading to a state of confusion. This reflects Arjuna's internal struggle as he vacillates between his duty as a warrior and his moral qualms about killing his relatives and teachers in battle.
+  The metaphor "छिन्नाभ्रमिव" (like a leaf blown about) emphasizes the instability and lack of direction experienced by someone who is confused. Just as a leaf is tossed by the wind, a person lacking clarity can easily be swayed by external circumstances.
+  <br><br><strong>Steadiness and Foundation:</strong><br>
+  
+  The phrase "अप्रतिष्ठो" refers to someone who lacks a firm foundation or stability. In the context of the verse, Krishna is highlighting that those who are confused and do not stand firm in their convictions are likely to suffer spiritual and existential crises.
+  "विमूढो" signifies being deluded or misled. It reflects the state of mind that prevents individuals from seeing the truth or making sound decisions.
+  <br><br><strong>Implications for Arjuna:</strong><br>
+  
+  By addressing Arjuna as "महाबाहो" (mighty-armed one), Krishna is reminding him of his strength and potential. However, despite his physical prowess, his confusion renders him ineffective on the battlefield and in life.
+  The verse serves as a warning about the dangers of being indecisive and confused, suggesting that such a state can lead to one's downfall or spiritual disintegration.
+  
+      </p>
+       </div>
+    <div style="font-size: xx-large;" class="summary">
+      <h2 >Summary</h2>
+    </div>
+    <div class="summaryc">
+      <p style="font-size: xx-large;">
+        In summary, this verse captures the essence of confusion and the importance of having a clear sense of purpose and direction. Krishna conveys to Arjuna that being torn between choices without a solid foundation can lead to destruction and delusion. It emphasizes the necessity of making firm decisions based on knowledge and understanding, especially in the face of challenges and moral &ensp;&ensp; dilemmas.
+Overall, this verse encapsulates the broader themes of the Bhagavad &ensp;Gita, urging seekers to transcend confusion and attain clarity through understanding their duty and the nature of reality.
+  
+      </p>
+      
+    </div>
+    <div>
+      <h1 style="font-size: xx-large;" class="visualmapping">Visual Mapping</h1>
+
+    </div>
+    
+  <div class="generate-block">
+    <div id="image-container">
+      <img  style="margin-left: 700px;" src="s1img.jpeg" alt="Generated Image">
+    </div>
+    <button id="generate-button" style="font-size: xx-large;padding: 10px 10px;border-radius: 15px;background-color: #89edff;margin-left: 800px;margin-top: 60px;">Generate Image</button>
+  </div>
+
+  <script>
+    const button = document.getElementById('generate-button');
+    const imageContainer = document.getElementById('image-container');
+
+    button.addEventListener('click', () => {
+      imageContainer.style.display = 'block'; // Show the image container
+    });
+  </script>
+
+
+</body>
+</html>
