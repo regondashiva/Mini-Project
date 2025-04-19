@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="images.png">
+    <title>Shloka 6.44</title>
+    <script type="module"> 
+  
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+import {
+  getDatabase,
+  ref,
+  get,
+} 
+from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
+        const firebaseConfig = {
+  apiKey: "AIzaSyC-whTtAmBBidncaKTnhcafYzLXHGYcQZ4",
+  authDomain: "mproject-23cfa.firebaseapp.com",
+  databaseURL: "https://mproject-23cfa-default-rtdb.firebaseio.com",
+  projectId: "mproject-23cfa",
+  storageBucket: "mproject-23cfa.firebasestorage.app",
+  messagingSenderId: "919584112619",
+  appId: "1:919584112619:web:1139be80f29e32f01da3ae",
+  measurementId: "G-LKGMZCETVL",
+};
+
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
+
+window.fetchTranslation = function(shlokaNum= window.currentShlokaNum || 7, languageKey) {
+  const tranRef = ref(database, `Shloka-${shlokaNum}/Translations/${languageKey}`);
+  get(tranRef)
+  .then((snapshot) => {
+    if (snapshot.exists()) {
+      const translation = snapshot.val();
+      const lines = translation.split("&"); 
+      const formattedTranslation = lines.join("<br>"); 
+      document.getElementById("shloka-box").innerHTML = formattedTranslation;
+    } else {
+      console.log("No data found.");
+    }
+  })
+  .catch((error) => {
+    console.log("Error translating.", error);
+  });
+}
+
+
+ 
+  window.changeText=function (languageKey) {
+    fetchTranslation(window.currentShlokaNum,languageKey);
+  };
+  
+
+  window.navClick = async function (shlokaNumber) {
+    window.currentShlokaNum = shlokaNumber;
+    const mainRef = ref(database, `Shloka-${shlokaNumber}/main`);
+    const audioRef = ref(database, `Shloka-${shlokaNumber}/aud`);
+    const snapshot = await get(audioRef);
+    const snapshot1 = await get(mainRef);
+    if (snapshot.exists()) {
+      const audioUrl = snapshot.val();
+      document.getElementById("audPlayer").src = audioUrl;
+    } else {
+      console.error("No audio data found.");
+    }
+    if (snapshot1.exists()) {
+      const mainText = snapshot1.val();
+      document.getElementById("shloka-box").innerHTML = mainText;
+    } else {
+      console.error("No text data found.");
+    }
+  };
+    </script>
+    <style>
+      #audios{
+        display:none;
+      }
+
+      #shloka-box{
+    font-size: xx-large;
+    font-weight: 600;
+    text-decoration-color: black;
+  }
+ .shloka-box{
+  text-align: center;
+  margin-left: 40px;
+  margin-top: 100px;
+  box-shadow:rgb(0,0,0,0.4) 0  5px 5px;
+  background: rgba(80, 37, 14, 0.7);
+  font: bolder;
+  text-decoration-color: black;
+  width: 750px;
+ z-index: 2;
+padding: 130px;
+margin: 20px auto;
+background-color: rgba(255, 255, 255, 0.397); 
+border: 2px solid #eeeeee; 
+border-radius: 5px;
+text-align: center;
+z-index: 1;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+ }
+ .audios{
+  font-size: x-large;
+ }
+ #audioplayer{
+  padding: 40px;
+  margin-top: 80px;
+ }
+
+ #aud1{
+  margin-bottom: 40px;
+ }
+ 
+
+ #aud2{
+  margin-bottom: 40px;
+ }
+
+ html {
+background-size: cover; 
+background-position: center;     
+    z-index: 1;
+    display: block;
+unicode-bidi: isolate
+  
+ }
+ #button1,#button2,#button3,#button4 {
+            padding: 15px 30px; 
+            font-size: 18px; 
+            border-radius: 12px; 
+            border: none; 
+            padding-right: 30px;
+            margin-right: 30px;
+            margin-top: 20px;
+            cursor: pointer; 
+            transition: all 0.3s ease; 
+        }
+
+        #button1,#button2,#button3,#button4 {
+            background-color: #89edff;
+            color: rgb(15, 15, 15); 
+            border: black 1px solid;
+            transform: scale(1.1); 
+                  }
+
+        #button1,#button2,#button3,#button4 {
+            outline: none; 
+        }
+        div{
+          text-align: left;
+          justify-content: center;
+        }
+        
+ html {
+background-size: cover; 
+background-position: center;     
+    background-image: url('sbg3.avif');
+    z-index: 1;
+    display: block;
+unicode-bidi: isolate
+  
+ }
+        .words{
+          font-size: xx-large;
+          justify-content: center;
+          z-index: 2;
+          line-height: 210%;
+          margin-left: 400px;
+        }
+        .explanationofterms{
+          background-color:   rgba(47, 139, 127, 0.7);
+          width:55% ;
+          text-align: center;
+          margin-left: 400px;
+        }
+
+        .commentary{
+          background-color:   rgba(47, 139, 127, 0.7);
+          width:55% ;
+          text-align: center;
+          margin-left: 350px;
+          margin-right: 400px;
+        }
+        .summary{
+        
+          background-color:   rgba(47, 139, 127, 0.7);
+          width:55% ;
+          text-align: center;
+          margin-left: 400px;
+
+        }
+        .summaryc{
+          width:75% ;
+          margin-left: 400px;
+          font-size: xx-large;
+          justify-content: center;
+          z-index: 2;
+          line-height: 180%;
+          margin-right: 400px;
+
+        }
+        .content{
+          margin-left: 400px;
+          font-size: xx-large;
+          justify-content: center;
+          z-index: 2;
+          margin-right: 400px;
+          width:75% ;
+          line-height: 180%;
+        }
+      </style>
+<script>
+  function changeText(language) {
+      alert("You selected language: " + language);
+  }
+</script>
+<script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'en',
+        includedLanguages: 'te,hi,ta',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+      }, 'google_translate_element');
+    }
+  </script>
+  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+</head>
+<body>
+  <div class="shloka-box">
+    <div class="container">
+      <div class="wallpaper"></div>
+      <div class="shloka1">
+      <p style="z-index: 2;"  id="shloka-box">            
+        पूर्वाभ्यासेन तेनैव ह्रियते ह्यवशोऽपि स: |
+        <br> 
+        जिज्ञासुरपि योगस्य शब्दब्रह्मातिवर्तते ||
+
+      </p>
+
+ <div class="audios">
+
+<label>
+  <input type="radio"  name="audio" id="aud1" value="aud1" onclick="playAudio('aud1')"> Aud 1 (Female Voice)
+</label>
+<label>
+  <input type="radio" name="audio" id="aud2"  value="aud2" onclick="playAudio('aud2')"> Aud 2 (Male Voice)
+</label>
+</div>
+
+
+<div id="audioPlayer">
+    <audio id="audio1" src="assets\sloka 7.mp3" ></audio>
+  <audio id="audio2" src="assets\Sloka 7 M.mp3" ></audio>
+
+  
+  <audio id="currentAudio" controls>
+      
+  </audio>
+</div>
+</div>
+
+<script>
+  function playAudio(selected) {
+      
+      const audio1 = document.getElementById('audio1');
+      const audio2 = document.getElementById('audio2');
+      const currentAudio = document.getElementById('currentAudio');
+      const audioPlayer = document.getElementById('audioPlayer');
+
+      
+      audio1.pause();
+      audio2.pause();
+
+      
+      audio1.currentTime = 0;
+      audio2.currentTime = 0;
+
+      
+      audioPlayer.style.display = 'block';
+
+      if (selected === 'aud1') {
+          currentAudio.src = audio1.src; 
+          currentAudio.play(); 
+      } else if (selected === 'aud2') {
+          currentAudio.src = audio2.src; 
+          currentAudio.play(); 
+      }
+  }
+</script>   
+      <div class="buttons">
+        <button id="button1" onclick="changeText('1')">Telugu</button>
+        <button id="button2" onclick="changeText('2')">Hindi</button>
+        <button id="button3" onclick="changeText('3')">English</button>
+        <button id="button4" onclick="changeText('4')">Tamil</button>
+    </div>
+    </div>
+    </div>
+    <div style="font-size: xx-large;" class="explanationofterms">
+      <h2>Explanation of Terms</h2>
+    </div>
+
+    <div  class="words">
+    
+      <p >
+        पूर्वाभ्यासेन  - by the practice from previous births (or by prior practice)<br>
+        तेन  - by that (or that same practice)<br>
+        एव  - indeed (or certainly)<br>
+        ह्रियते  - is drawn (or is carried away)<br>
+        ह्य  - indeed (or certainly)<br>
+        अवशः  - involuntarily (or without control)<br>
+        अपि  - even (or also)<br>
+        सः  - he (or that person)<br>
+        जिज्ञासुः  - the curious seeker (or inquirer)<br>
+        अपि  - also (or even)<br>
+        योगस्य  - of yoga (or spiritual practice)<br>
+        शब्दब्रह्मातिवर्तते  - transcends the sound of the ultimate reality (or the essence of spiritual knowledge)<br>
+        
+    </p>
+    </div>
+    <div class="commentary" style="font-size: xx-large;">
+      <h2>
+        Commentary
+      </h2>
+    </div>
+    <div class="content">
+      <p style="font-size: xx-large;">
+  
+  <strong>T</strong>his verse addresses the journey of a spiritual seeker who engages in yoga. Krishna reassures that past experiences and practices significantly influence an individual’s current spiritual path.
+  <br><br> <strong>
+    Impact of Previous Practice::</strong><br>
+  
+    The term "पूर्वाभ्यासेन" (by previous practice) indicates that the efforts and experiences from past lives shape a person's present capacity to engage in yoga. Those who have practiced yoga or spiritual disciplines in previous lifetimes carry that knowledge and inclination into their current life.
+<br><br><strong>Involuntary Inclination:</strong><br>
+  
+The phrase "ह्रियते ह्यवशोऽपि सः" suggests that even if a person feels weak or involuntary in their current efforts (i.e., they may struggle or feel lost), they are still drawn toward their spiritual practice. This indicates that the momentum created by past efforts will compel them to continue their spiritual journey, even if they experience setbacks.
+<br><br><strong> Curiosity in Yoga:</strong><br>
+  
+The term "जिज्ञासुः" (the seeker or inquirer) refers to someone who is genuinely interested in understanding yoga and spiritual truths. Krishna states that even such seekers, despite their struggles, will find that they transcend ordinary knowledge and experience a higher reality.
+
+      </p>
+      <strong>
+        Transcending Sound of Ultimate Reality:
+      
+      </strong>
+      <p>
+        The phrase "शब्दब्रह्मातिवर्तते" implies that through sincere practice, seekers go beyond mere intellectual understanding or verbal knowledge of spiritual concepts. They begin to experience deeper truths that lie beyond words, which are often referred to as the essence of spiritual knowledge.
+      
+      </p>
+       </div>
+    <div style="font-size: xx-large;" class="summary">
+      <h2 >Summary</h2>
+    </div>
+    <div class="summaryc">
+      <p style="font-size: xx-large;"> In summary, this verse emphasizes that the practice of yoga and spiritual disciplines from previous lives significantly impacts a person's current spiritual journey. Even if individuals struggle or feel weak, they are still inherently drawn to their spiritual practices due to their past efforts. The verse also highlights that genuine seekers of yoga will eventually transcend mere intellectual understanding, leading them to deeper spiritual experiences.
+        Overall, this verse encapsulates the compassionate and reassuring message of the Bhagavad Gita, encouraging individuals on the spiritual path to persist in their efforts and remain open to the profound experiences that arise from sincere practice.
+        
+      </p>
+      
+    </div>
+    
+</body>
+</html>
