@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="images.png">
+    <title>Shloka 6.45</title>
+    <script type="module"> 
+  
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+import {
+  getDatabase,
+  ref,
+  get,
+} 
+from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
+        const firebaseConfig = {
+  apiKey: "AIzaSyC-whTtAmBBidncaKTnhcafYzLXHGYcQZ4",
+  authDomain: "mproject-23cfa.firebaseapp.com",
+  databaseURL: "https://mproject-23cfa-default-rtdb.firebaseio.com",
+  projectId: "mproject-23cfa",
+  storageBucket: "mproject-23cfa.firebasestorage.app",
+  messagingSenderId: "919584112619",
+  appId: "1:919584112619:web:1139be80f29e32f01da3ae",
+  measurementId: "G-LKGMZCETVL",
+};
+
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
+
+window.fetchTranslation = function(shlokaNum= window.currentShlokaNum || 8, languageKey) {
+  const tranRef = ref(database, `Shloka-${shlokaNum}/Translations/${languageKey}`);
+  get(tranRef)
+  .then((snapshot) => {
+    if (snapshot.exists()) {
+      const translation = snapshot.val();
+      const lines = translation.split("&"); 
+      const formattedTranslation = lines.join("<br>"); 
+      document.getElementById("shloka-box").innerHTML = formattedTranslation;
+    } else {
+      console.log("No data found.");
+    }
+  })
+  .catch((error) => {
+    console.log("Error translating.", error);
+  });
+}
+
+
+ 
+  window.changeText=function (languageKey) {
+    fetchTranslation(window.currentShlokaNum,languageKey);
+  };
+  
+
+  window.navClick = async function (shlokaNumber) {
+    window.currentShlokaNum = shlokaNumber;
+    const mainRef = ref(database, `Shloka-${shlokaNumber}/main`);
+    const audioRef = ref(database, `Shloka-${shlokaNumber}/aud`);
+    const snapshot = await get(audioRef);
+    const snapshot1 = await get(mainRef);
+    if (snapshot.exists()) {
+      const audioUrl = snapshot.val();
+      document.getElementById("audPlayer").src = audioUrl;
+    } else {
+      console.error("No audio data found.");
+    }
+    if (snapshot1.exists()) {
+      const mainText = snapshot1.val();
+      document.getElementById("shloka-box").innerHTML = mainText;
+    } else {
+      console.error("No text data found.");
+    }
+  };
+    </script>
+    <style>
+      #audios{
+        display:none;
+      }
+
+      #shloka-box{
+    font-size: xx-large;
+    font-weight: 600;
+    text-decoration-color: black;
+  }
+ .shloka-box{
+  text-align: center;
+  margin-left: 40px;
+  margin-top: 100px;
+  box-shadow:rgb(0,0,0,0.4) 0  5px 5px;
+  background: rgba(80, 37, 14, 0.7);
+  font: bolder;
+  text-decoration-color: black;
+  width: 750px;
+ z-index: 2;
+padding: 130px;
+margin: 20px auto;
+background-color: rgba(255, 255, 255, 0.397); 
+border: 2px solid #eeeeee; 
+border-radius: 5px;
+text-align: center;
+z-index: 1;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+ }
+ .audios{
+  font-size: x-large;
+ }
+ #audioplayer{
+  padding: 40px;
+  margin-top: 80px;
+ }
+
+ #aud1{
+  margin-bottom: 40px;
+ }
+ 
+
+ #aud2{
+  margin-bottom: 40px;
+ }
+
+ html {
+background-size: cover; 
+background-position: center;     
+    z-index: 1;
+    display: block;
+unicode-bidi: isolate
+  
+ }
+ #button1,#button2,#button3,#button4 {
+            padding: 15px 30px; 
+            font-size: 18px; 
+            border-radius: 12px; 
+            border: none; 
+            padding-right: 30px;
+            margin-right: 30px;
+            margin-top: 20px;
+            cursor: pointer; 
+            transition: all 0.3s ease; 
+        }
+
+        #button1,#button2,#button3,#button4 {
+            background-color: #89edff;
+            color: rgb(15, 15, 15); 
+            border: black 1px solid;
+            transform: scale(1.1); 
+                  }
+
+        #button1,#button2,#button3,#button4 {
+            outline: none; 
+        }
+        div{
+          text-align: left;
+          justify-content: center;
+        }
+        
+ html {
+background-size: cover; 
+background-position: center;     
+    background-image: url('sbg3.avif');
+    z-index: 1;
+    display: block;
+unicode-bidi: isolate
+  
+ }
+        .words{
+          font-size: xx-large;
+          justify-content: center;
+          z-index: 2;
+          line-height: 210%;
+          margin-left: 400px;
+        }
+        .explanationofterms{
+          background-color:   rgba(47, 139, 127, 0.7);
+          width:55% ;
+          text-align: center;
+          margin-left: 400px;
+        }
+
+        .commentary{
+          background-color:   rgba(47, 139, 127, 0.7);
+          width:55% ;
+          text-align: center;
+          margin-left: 350px;
+          margin-right: 400px;
+        }
+        .summary{
+        
+          background-color:   rgba(47, 139, 127, 0.7);
+          width:55% ;
+          text-align: center;
+          margin-left: 400px;
+
+        }
+        .summaryc{
+          width:75% ;
+          margin-left: 400px;
+          font-size: xx-large;
+          justify-content: center;
+          z-index: 2;
+          line-height: 180%;
+          margin-right: 400px;
+
+        }
+        .content{
+          margin-left: 400px;
+          font-size: xx-large;
+          justify-content: center;
+          z-index: 2;
+          margin-right: 400px;
+          width:75% ;
+          line-height: 180%;
+        }
+      </style>
+<script>
+  function changeText(language) {
+      alert("You selected language: " + language);
+  }
+</script>
+<script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'en',
+        includedLanguages: 'te,hi,ta',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+      }, 'google_translate_element');
+    }
+  </script>
+  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+</head>
+<body>
+  <div class="shloka-box">
+    <div class="container">
+      <div class="wallpaper"></div>
+      <div class="shloka1">
+      <p style="z-index: 2;"  id="shloka-box">
+        प्रयत्नाद्यतमानस्तु योगी संशुद्धकिल्बिष: |
+        <br>
+        अनेकजन्मसंसिद्धस्ततो याति परां गतिम् ||
+      </p>
+
+ <div class="audios">
+
+<label>
+  <input type="radio"  name="audio" id="aud1" value="aud1" onclick="playAudio('aud1')"> Aud 1 (Female Voice)
+</label>
+<label>
+  <input type="radio" name="audio" id="aud2"  value="aud2" onclick="playAudio('aud2')"> Aud 2 (Male Voice)
+</label>
+</div>
+
+
+<div id="audioPlayer">
+    <audio id="audio1" src="assets\sloka 8.mp3" ></audio>
+  <audio id="audio2" src="assets\Sloka 8 M.mp3" ></audio>
+
+  
+  <audio id="currentAudio" controls>
+      
+  </audio>
+</div>
+</div>
+
+<script>
+  function playAudio(selected) {
+      
+      const audio1 = document.getElementById('audio1');
+      const audio2 = document.getElementById('audio2');
+      const currentAudio = document.getElementById('currentAudio');
+      const audioPlayer = document.getElementById('audioPlayer');
+
+      
+      audio1.pause();
+      audio2.pause();
+
+      
+      audio1.currentTime = 0;
+      audio2.currentTime = 0;
+
+      
+      audioPlayer.style.display = 'block';
+
+      if (selected === 'aud1') {
+          currentAudio.src = audio1.src; 
+          currentAudio.play(); 
+      } else if (selected === 'aud2') {
+          currentAudio.src = audio2.src; 
+          currentAudio.play(); 
+      }
+  }
+</script>   
+      <div class="buttons">
+        <button id="button1" onclick="changeText('1')">Telugu</button>
+        <button id="button2" onclick="changeText('2')">Hindi</button>
+        <button id="button3" onclick="changeText('3')">English</button>
+        <button id="button4" onclick="changeText('4')">Tamil</button>
+    </div>
+    </div>
+    </div>
+    <div style="font-size: xx-large;" class="explanationofterms">
+      <h2>Explanation of Terms</h2>
+    </div>
+
+    <div  class="words">
+    
+      <p >
+        प्रयत्नात्  - with effort (or through endeavor)<br>
+        यतमानः  - striving (or exerting oneself)<br>
+        तु  - but (or indeed)<br>
+        योगी  - the yogi (or practitioner of yoga)<br>
+        संशुद्धकिल्बिषः  - is free from sin (or purified of impurities)<br>
+        अनेकजन्मसंसिद्धः  - perfected over many births (or through many lifetimes)<br>
+        ततः  - from there (or then)<br>
+        याति  - attains (or reaches)<br>
+        परां  - the highest (or supreme)<br>
+        गतिम्  - destination (or state)<br>
+
+    </p>
+    </div>
+    <div class="commentary" style="font-size: xx-large;">
+      <h2>
+        Commentary
+      </h2>
+    </div>
+    <div class="content">
+      <p style="font-size: xx-large;">
+  
+  <strong>I</strong>n this verse, Krishna is highlighting the importance of effort and perseverance in the practice of yoga. The yogi who puts in sincere effort is recognized for their spiritual progress and eventual attainment.
+  <br><br> <strong>  Diligent Striving:</strong><br>
+  
+  The phrase "प्रयत्नाद्यतमानस्तु" (with effort, the striving yogi) indicates that success on the spiritual path requires dedicated effort. A yogi must be proactive and committed in their practice to achieve purification and spiritual advancement.
+  <br><br><strong>Purity and Liberation from Sin:</strong><br>
+  
+  The term "संशुद्धकिल्बिषः" means that through their efforts, the yogi becomes free from sins and impurities. This suggests that sincere practice not only leads to spiritual growth but also results in moral and ethical purity.
+<br><br><strong>Perfection through Many Lifetimes:</strong><br>
+"अनेकजन्मसंसिद्धः" refers to the yogi who has perfected their practice over many lifetimes. This reflects the concept of reincarnation in Hindu philosophy, where the soul evolves through various births, accumulating knowledge and experience that aid in spiritual progress.
+
+      </p>
+      <strong>
+        Attaining the Supreme Destination:
+    
+    </strong>
+    <p>
+        The concluding part of the verse, "ततो याति परां गतिम्" (from there, attains the highest destination), emphasizes that once a yogi has purified themselves and perfected their practice, they can attain a supreme state of realization or liberation. This state is often understood as union with the divine or the ultimate truth.
+    
+    </p>
+       </div>
+    <div style="font-size: xx-large;" class="summary">
+      <h2 >Summary</h2>
+    </div>
+    <div class="summaryc">
+      <p style="font-size: xx-large;">In summary, this verse emphasizes that a yogi who diligently strives on the spiritual path and purifies themselves of sins through consistent effort will eventually perfect their practice over many lifetimes. Such a yogi ultimately attains the highest state of spiritual realization or liberation. The verse reinforces the importance of perseverance, purity, and the cumulative nature of spiritual growth across lifetimes.
+        Overall, this verse conveys a powerful message about the significance of dedication and the transformative potential of spiritual practice, encouraging individuals to pursue their spiritual paths with determination and sincerity.
+        
+      </p>
+      
+    </div>
+    
+</body>
+</html>
